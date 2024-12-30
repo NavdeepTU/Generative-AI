@@ -24,7 +24,7 @@ os.environ["HF_TOKEN"] = os.getenv("HF_TOKEN")
 from langchain_huggingface import HuggingFaceEmbeddings
 embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 
-llm = ChatGroq(groq_api_key, model_name="Llama3-8b-8192")
+llm = ChatGroq(groq_api_key=groq_api_key, model_name="Llama3-8b-8192")
 
 prompt = ChatPromptTemplate.from_template(
     """
@@ -53,3 +53,23 @@ user_prompt = st.text_input("Enter your query from the research paper")
 if st.button("Document Embedding"):
     create_vector_embedding()
     st.write("Vector Database is ready")
+
+import time
+
+if user_prompt:
+    document_chain = create_stuff_documents_chain(llm, prompt)
+    retriever = st.session_state.vectors.as_retriever()
+    retrieval_chain = create_retrieval_chain(retriever, document_chain)
+
+    start = time.process_time()
+    response = retrieval_chain.invoke({"input":user_prompt})
+    print(f"Response time :{time.process_time()-start}")
+
+    st.write(response["answer"])
+
+    # with a streamlit expander
+    with st.expander("Document similarity Search"):
+        for i, doc in enumerate(response["context"]):
+            st.write(doc.page_content)
+            st.write("--------------------------")
+    print(response)
