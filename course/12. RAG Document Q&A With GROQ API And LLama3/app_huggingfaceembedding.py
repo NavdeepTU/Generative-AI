@@ -12,3 +12,44 @@ from langchain_community.vectorstores import FAISS
 from langchain_community.document_loaders import PyPDFDirectoryLoader
 import openai
 from dotenv import load_dotenv
+
+# load environment variables
+load_dotenv()
+os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
+os.environ["GROQ_API_KEY"] = os.getenv("GROQ_API_KEY")
+groq_api_key = os.getenv("GROQ_API_KEY")
+
+# if you do not have open AI key use the below Huggingface embedding
+os.environ["HF_TOKEN"] = os.getenv("HF_TOKEN")
+from langchain_huggingface import HuggingFaceEmbeddings
+embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+
+llm = ChatGroq(groq_api_key, model_name="Llama3-8b-8192")
+
+prompt = ChatPromptTemplate.from_template(
+    """
+    Answer the questions based on the provided context only.
+    Please provide the most accurate response based on the question
+    <context>
+    {context}
+    <context>
+    Question:{input}
+    """
+)
+
+def create_vector_embedding():
+    if "vectors" not in st.session_state:
+        st.session_state.embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+        st.session_state.loader = PyPDFDirectoryLoader("research_papers") # data ingestion step
+        st.session_state.docs = st.session_state.loader.load()
+        st.session_state.text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+        st.session_state.final_documents = st.session_state.text_splitter.split_documents(st.session_state.docs[:50])
+        st.session_state.vectors = FAISS.from_documents(st.session_state.final_documents, st.session_state.embeddings)
+
+st.title("RAG Document Q&A With Groq And Lama3")
+
+user_prompt = st.text_input("Enter your query from the research paper")
+
+if st.button("Document Embedding"):
+    create_vector_embedding()
+    st.write("Vector Database is ready")
