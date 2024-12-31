@@ -49,3 +49,23 @@ if api_key:
             documents.extend(docs)
 
         # split and create embeddings for the documents
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=5000, chunk_overlap=500)
+        splits = text_splitter.split_documents(documents)
+        vectorstore = Chroma.from_documents(documents=splits, embedding=embeddings)
+        retriever = vectorstore.as_retriever()
+
+        # describing prompt structure
+        contextualize_q_system_prompt=(
+            "Given a chat history and the latest user question"
+            "which might reference context in the chat history, "
+            "formulate a standalone question which can be understood "
+            "without the chat history. Do NOT answer the question, "
+            " just reformulate it if needed and otherwise return it as is."
+        )
+        contextualize_q_prompt = ChatPromptTemplate.from_messages(
+            [
+                ("system", contextualize_q_system_prompt),
+                MessagesPlaceholder("chat_history"),
+                ("human", "{input}")
+            ]
+        )
