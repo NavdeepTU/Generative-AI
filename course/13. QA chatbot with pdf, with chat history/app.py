@@ -25,3 +25,27 @@ st.write("Upload PDF's and chat with their content")
 # input the Groq API key
 api_key = st.text_input("Enter your Groq API key:", type="password")
 
+# Check if groq api key is provided
+if api_key:
+    llm = ChatGroq(groq_api_key=api_key, model="Gemma2-9b-It")
+    # chat interface
+    session_id = st.text_input("Session ID", value="default_session")
+    # statefully manage chat history
+    if "store" not in st.session_state:
+        st.session_state.store = {}
+
+    uploaded_files = st.file_uploader("Choose a PDF file", type="pdf", accept_multiple_files=True)
+    # process uploaded PDF's
+    if uploaded_files:
+        documents=[]
+        for uploaded_file in uploaded_files:
+            temppdf = f"./temp.pdf"
+            with open(temppdf, "wb") as file:
+                file.write(uploaded_file.getvalue())
+                file_name = uploaded_file.name
+            
+            loader = PyPDFLoader(temppdf)
+            docs = loader.load()
+            documents.extend(docs)
+
+        # split and create embeddings for the documents
