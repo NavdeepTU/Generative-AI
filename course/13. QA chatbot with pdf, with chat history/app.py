@@ -17,6 +17,11 @@ load_dotenv()
 
 os.environ["HF_TOKEN"] = os.getenv("HF_TOKEN")
 embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+vectorstore = Chroma(
+    collection_name="example_collection",
+    embedding_function=embeddings,
+    persist_directory="./chroma_langchain_db",  # Where to save data locally, remove if not necessary
+)
 
 # set up streamlit
 st.title("Conversational RAG With PDF uploads and chat history")
@@ -51,7 +56,7 @@ if api_key:
         # split and create embeddings for the documents
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=5000, chunk_overlap=500)
         splits = text_splitter.split_documents(documents)
-        vectorstore = Chroma.from_documents(documents=splits, embedding=embeddings)
+        vectorstore.add_documents(splits)
         retriever = vectorstore.as_retriever()
 
         # describing prompt structure
@@ -105,4 +110,18 @@ if api_key:
             output_messages_key="answer"
         )
 
-        
+        # set up user input
+        user_input = st.text_input("Your question:")
+        if user_input:
+            session_history = get_session_history(session_id)
+            response = conversational_rag_chain.invoke(
+                {"input": user_input},
+                config={
+                    "configurable": {"session_id":session_id}
+                }, # constructs a key "abc123" in 'store'
+            )
+            st.write(st.session_state.store)
+            st.write("Assistant:", response["answer"])
+            st.write("Chat History:", session_history.messages)
+else:
+    st.warning("Please enter the Groq API key")
