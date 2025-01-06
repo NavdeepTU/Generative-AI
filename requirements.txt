@@ -24,3 +24,7 @@ streamlit
 langchain-groq
 translate
 duckduckgo-search
+fastapi
+uvicorn
+langserve
+sse_starlette
