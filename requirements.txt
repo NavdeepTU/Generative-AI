@@ -28,3 +28,8 @@ fastapi
 uvicorn
 langserve
 sse_starlette
+diffusers
+Pillow
+accelerate 
+scipy 
+safetensors
