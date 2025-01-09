@@ -39,3 +39,24 @@ if not api_key:
 
 # LLM model
 llm = ChatGroq(api_key=api_key, model="Llama3-8b-8192", streaming=True)
+
+@st.cache_resource(ttl="2h")
+def configure_db(db_uri, mysql_host=None, mysql_user=None, 
+                 mysql_password=None, mysql_db=None):
+    if db_uri == LOCALDB:
+        dbfilepath = (Path(__file__).parent/"student.db").absolute()
+        print(dbfilepath)
+        creator = lambda: sqlite3.connect(f"file:{dbfilepath}?mode=ro", uri=True)
+        return SQLDatabase(create_engine("sqlite:///", creator=creator))
+    elif db_uri == MYSQL:
+        if not (mysql_host and mysql_user and mysql_password and mysql_db):
+            st.error("Please provide all MySQL connection details.")
+            st.stop()
+        return SQLDatabase(create_engine(f"mysql+mysqlconnector://{mysql_user}:{mysql_password}@{mysql_host}/{mysql_db}"))
+    
+if db_uri == MYSQL:
+    db = configure_db(db_uri, mysql_host, mysql_user, mysql_password, mysql_db)
+else:
+    db = configure_db(db_uri)  # for LOCALDB case
+
+# toolkit
