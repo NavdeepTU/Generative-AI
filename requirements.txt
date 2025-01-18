@@ -38,3 +38,7 @@ youtube_transcript_api
 pytube
 unstructured
 huggingface_hub
+cassio
+datasets
+tiktoken
+PyPDF2
