@@ -33,4 +33,10 @@ def generate_response(prompt):
         print("error:", response.text)
 
 # frontend
-interface = gr.Interface()
+interface = gr.Interface(
+    fn=generate_response,
+    inputs=gr.Textbox(lines=4, placeholder="Enter your prompt"),
+    outputs="text"
+)
+
+interface.launch()
