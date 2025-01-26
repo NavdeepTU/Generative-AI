@@ -43,3 +43,5 @@ datasets
 tiktoken
 PyPDF2
 gradio
+boto3
+awscli
