@@ -105,3 +105,13 @@ def main():
             llm = get_claude_llm()
             st.write(get_response_llm(llm, faiss_index, user_question))
             st.success("Done")
+
+    if st.button("Llama2 Output"):
+        with st.spinner("Processing..."):
+            faiss_index = FAISS.load_local("faiss_index", bedrock_embeddings)
+            llm = get_llama2_llm()
+            st.write(get_response_llm(llm, faiss_index, user_question))
+            st.success("Done")
+
+if __name__ == "__main__":
+    main()
