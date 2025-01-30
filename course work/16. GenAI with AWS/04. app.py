@@ -2,6 +2,7 @@ import json
 import os
 import sys
 import boto3
+import streamlit as st
 
 # using Titan embeddings model to generate embedding
 from langchain_community.embeddings import BedrockEmbeddings
@@ -70,4 +71,30 @@ PROMPT = PromptTemplate(
 )
 
 def get_response_llm(llm, vectorstore_faiss, query):
-    pass
+    qa = RetrievalQA.from_chain_type(
+        llm=llm,
+        chain_type="stuff",
+        retriever=vectorstore_faiss.as_retriever(
+            search_type="similarity", search_kwargs={"k":3}
+        ),
+        return_source_documents=True,
+        chain_type_kwargs={"prompt":PROMPT}
+    )
+
+    answer = qa({"query":query})
+    return answer["result"]
+
+def main():
+    st.set_page_config("Chat PDF")
+    st.header("Chat with PDF using AWS Bedrock")
+
+    user_question = st.text_input("Ask a Qustion from the PDF Files")
+
+    with st.sidebar:
+        st.title("Update or Create Vector Store:")
+
+        if st.button("Vectors Update"):
+            with st.spinner("Processing..."):
+                docs = data_ingestion()
+                get_vector_store(docs)
+                st.success("Done")
