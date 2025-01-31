@@ -45,3 +45,4 @@ PyPDF2
 gradio
 boto3
 awscli
+langchain_ollama
