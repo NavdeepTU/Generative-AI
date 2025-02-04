@@ -8,3 +8,15 @@ sagemaker_session_bucket = None
 if sagemaker_session_bucket is None and sess is not None:
     # set to default bucket if a bucket name is not given
     sagemaker_session_bucket = sess.default_bucket()
+
+# role management
+try:
+    role = sagemaker.get_execution_role()
+except ValueError:
+    iam = boto3.client("iam")
+    role = iam.get_role(RoleName="sagemaker_execution_role")["Role"]["Arn"]
+
+session = sagemaker.Session(default_bucket=sagemaker_session_bucket)
+
+print(f"sagemaker role arn:{role}")
+print(f"sagemaker session region:{session.boto_region_name}")
