@@ -8,3 +8,4 @@ resources
 .gradio
 __pycache__/
 db/
+neo4j_database_info/
