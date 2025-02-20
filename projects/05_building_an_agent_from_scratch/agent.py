@@ -71,3 +71,47 @@ class OllamaModel:
         except requests.RequestException as e:
             response = {"error": f"Error in invoking model! {str(e)}"}
             return response
+        
+# Creating tools for the agent
+# The next step is to create tools that our agents can use. 
+# These tools are simple Python functions that perform specific 
+# tasks. Here’s an example of a basic calculator and a string 
+# reverser.
+
+def basic_calculator(input_str):
+    """
+    Perform a numeric operation on two numbers based on the input string or dictionary.
+
+    Parameters:
+    input_str (str or dict): Either a JSON string representing a dictionary with keys 'num1', 'num2', and 'operation',
+                            or a dictionary directly. Example: '{"num1": 5, "num2": 3, "operation": "add"}'
+                            or {"num1": 67869, "num2": 9030393, "operation": "divide"}
+
+    Returns:
+    str: The formatted result of the operation.
+
+    Raises:
+    Exception: If an error occurs during the operation (e.g., division by zero).
+    ValueError: If an unsupported operation is requested or input is invalid.
+    """
+    
+    try:
+        # handle both dictionary and string inputs
+        if isinstance(input_str, dict):
+            input_dict = input_str
+        else:
+            # clean and parse the input string
+            input_str_clean = input_str.replace("'", "\"")
+            input_str_clean = input_str_clean.strip().strip("\"")
+            input_dict = json.loads(input_str_clean)
+
+        # validate required fields
+        if not all(key in input_dict for key in ["num1", "num2", "operation"]):
+            return "Error: Input must contain 'num1', 'num2' and 'operation'"
+        num1 = float(input_dict['num1']) # convert to float to handle decimal numbers
+        num2 = float(input_dict["num2"])
+        operation = input_dict["operation"].lower() # make case-insensitive
+    except (json.JSONDecodeError, KeyError) as e:
+        return "Invalid input format. Please provide valid numbers and operation."
+    except ValueError as e:
+        return "Error: Please provide valid numerical values."
