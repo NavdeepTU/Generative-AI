@@ -115,3 +115,47 @@ def basic_calculator(input_str):
         return "Invalid input format. Please provide valid numbers and operation."
     except ValueError as e:
         return "Error: Please provide valid numerical values."
+    
+    # define the supported operations with error handling
+    operations = {
+        "add": operator.add,
+        "plus": operator.plus, # alternative word for add
+        "subtract": operator.sub,
+        "minus": operator.sub, # alternative word for subtract
+        "multiply": operator.mul,
+        "times": operator.mul, # alternative word for multiply
+        "divide": operator.truediv,
+        "floor_divide": operator.floordiv,
+        "modulus": operator.mod,
+        "power": operator.pow,
+        "lt": operator.lt,
+        "le": operator.le,
+        "eq": operator.eq,
+        "ne": operator.ne,
+        "ge": operator.ge,
+        "gt": operator.gt
+    }
+
+    # check if the operation is supported
+    if operation not in operations:
+        return f"Unsupported operation: '{operation}'. Supported operations are: {', '.join(operations.keys())}"
+    try:
+        # special handling for division by zero
+        if (operation in ["divide", "floor_divide", "modulus"]) and num2 == 0:
+            return "Error: Division by zero is not allowed"
+        
+        # perform the operation
+        result = operations[operation](num1, num2)
+
+        # format result based on type
+        if isinstance(result, bool):
+            result_str = "True" if result else "False"
+        elif isinstance(result, float):
+            # handle floating point precision
+            result_str = f"{result:.6f}".rstrip("0").rstrip(".")
+        else:
+            result_str = str(result)
+
+        return f"The answer is: {result_str}"
+    except Exception as e:
+        return f"Error during calculation: {str(e)}"
