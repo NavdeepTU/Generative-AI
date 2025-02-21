@@ -159,3 +159,26 @@ def basic_calculator(input_str):
         return f"The answer is: {result_str}"
     except Exception as e:
         return f"Error during calculation: {str(e)}"
+    
+
+def reverse_string(input_string):
+    """
+    Reverse the given string.
+
+    Parameters:
+    input_string (str): The string to be reversed.
+
+    Returns:
+    str: The reversed string.
+    """
+    # check if input is a string
+    if not isinstance(input_string, str):
+        return "Error: Input must be a string"
+    
+    # reverse the string using slicing
+    reversed_string = input_string[::-1]
+
+    # format the output
+    result = f"The reversed string is: {reversed_string}"
+
+    return result
