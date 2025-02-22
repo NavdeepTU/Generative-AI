@@ -281,3 +281,20 @@ Here is a list of your tools along with their descriptions:
 
 Remember: Your response must ALWAYS be valid JSON with "tool_choice" and "tool_input" fields.
 """
+
+class Agent:
+    def __init__(self, tools, model_service, model_name, stop=None):
+        """
+        Initializes the agent with a list of tools and a model.
+
+        Parameters:
+        tools (list): List of tool functions.
+        model_service (class): The model service class with a generate_text method.
+        model_name (str): The name of the model to use.
+        """
+        self.tools = tools
+        self.model_service = model_service
+        self.model_name = model_name
+        self.stop = stop
+
+    
