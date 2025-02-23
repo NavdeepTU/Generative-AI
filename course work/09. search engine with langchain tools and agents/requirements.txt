@@ -1,6 +1,0 @@
-ipykernel
-langchain
-langchain-community
-langchain_groq
-arxiv
-wikipedia
