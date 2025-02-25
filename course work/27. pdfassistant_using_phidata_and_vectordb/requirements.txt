@@ -1,6 +1,0 @@
-phidata
-sqlalchemy
-pgvector
-psycopg[binary]
-pypdf
-openai
