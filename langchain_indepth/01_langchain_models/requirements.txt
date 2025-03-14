@@ -30,3 +30,6 @@ streamlit
 
 # pydantic
 pydantic[email]
+
+# for graphs
+grandalf
