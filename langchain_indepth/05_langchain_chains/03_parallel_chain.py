@@ -30,7 +30,7 @@ parser = StrOutputParser()
 parallel_chain = RunnableParallel({
     "notes": prompt1 | model1 | parser,
     "quiz": prompt2 | model2 | parser
-}  )
+})
 
 # merging logic
 merge_chain = prompt3 | model1 | parser

@@ -1,3 +1,6 @@
+# running ipynb notebook
+ipykernel
+
 # langchain core
 langchain
 langchain-core
