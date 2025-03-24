@@ -34,6 +34,14 @@ S-Pen support is unique and useful
 """)
 
 print(result)
+
+# {'key_themes': ['Snapdragon 8 Gen 3 processor', '5000mAh battery', '45W fast charging', 'S-Pen integration', '200MP camera', 'night mode', '100x zoom', 'weight and size', 'One UI', 'bloatware', 'price tag'], 
+#  'summary': "The Samsung Galaxy S24 Ultra is an absolute powerhouse with its Snapdragon 8 Gen 3 processor, long-lasting battery, and stunning 200MP camera. The S-Pen integration adds value, but the device is let down by its weight, bloatware in Samsung's One UI, and high price tag.",
+#  'sentiment': 'pos',
+#  'pros': ['Insanely powerful processor (great for gaming and productivity)', 'Stunning 200MP camera with incredible zoom capabilities', 'Long battery life with fast charging', 'S-Pen support is unique and useful'],
+#  'cons': ['Weight and size make one-handed use uncomfortable', "Bloatware in Samsung's One UI", 'High price tag'],
+#  'name': 'User'}
+
 print(type(result)) # dict
 print(result["summary"])
 print(result["sentiment"])

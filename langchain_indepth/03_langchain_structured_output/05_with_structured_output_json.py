@@ -1,7 +1,5 @@
 from langchain_openai import ChatOpenAI
 from dotenv import load_dotenv
-from typing import TypedDict, Annotated, Optional, Literal
-from pydantic import BaseModel, Field
 
 load_dotenv()
 
@@ -29,7 +27,7 @@ json_schema = {
       "description": "Return sentiment of the review either negative, positive or neutral"
     },
     "pros": {
-      "type": ["array", "null"], # adding type null for otional properties
+      "type": ["array", "null"], # adding type null for optional properties
       "items": {
         "type": "string"
       },
@@ -67,6 +65,12 @@ S-Pen support is unique and useful
 """)
 
 print(result) 
+
+{'key_themes': ['powerful processor', 'long battery life', 'fast charging', 'S-Pen integration', '200MP camera', 'night mode', 'zoom capabilities', 'weight and size', 'bloatware', 'price tag'],
+ 'summary': 'The Samsung Galaxy S24 Ultra is an absolute powerhouse with its Snapdragon 8 Gen 3 processor, long-lasting battery, fast charging, and impressive 200MP camera. The S-Pen integration adds a unique touch for note-taking and sketches. However, the weight and size can be uncomfortable for one-handed use, and the presence of bloatware and high price tag are notable drawbacks.',
+ 'sentiment': 'pos', 
+ 'pros': ['Insanely powerful processor (great for gaming and productivity)', 'Stunning 200MP camera with incredible zoom capabilities', 'Long battery life with fast charging', 'S-Pen support is unique and useful']}
+
 print(type(result)) # python dictionary, similar to what we get in TypedDict
 print(result["summary"])
 print(result["sentiment"])

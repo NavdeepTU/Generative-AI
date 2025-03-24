@@ -7,3 +7,5 @@ class Person(TypedDict):
 new_person: Person = {"name": "navdeep", "age": 25}
 
 print(new_person)
+
+# {'name': 'navdeep', 'age': 25}
