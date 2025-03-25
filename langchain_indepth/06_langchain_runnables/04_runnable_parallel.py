@@ -7,13 +7,13 @@ from langchain.schema.runnable import RunnableSequence, RunnableParallel
 load_dotenv()
 
 prompt1 = PromptTemplate(
-    template="Generate a tweet about {topic}",
-    input_variables=["topic"]
+    template="Generate a tweet about {topic1}",
+    input_variables=["topic1"]
 )
 
 prompt2 = PromptTemplate(
-    template="Generate a linkedin post on {topic}",
-    input_variables=["topic"]
+    template="Generate a linkedin post on {topic2}",
+    input_variables=["topic2"]
 )
 
 model = ChatOpenAI()
@@ -25,7 +25,7 @@ parallel_chain = RunnableParallel({
     "linkedin": RunnableSequence(prompt2, model, parser)
 }) # will return a dictionary with keys as tweet and linkedin
 
-result = parallel_chain.invoke({"topic": "AI"})
+result = parallel_chain.invoke({"topic1": "AI", "topic2": "GenAI"})
 
 print("***********Tweet**************")
 print(result["tweet"])
