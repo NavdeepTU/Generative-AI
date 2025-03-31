@@ -37,3 +37,6 @@ pydantic[email]
 
 # for graphs
 grandalf
+
+# for pdf documents
+pypdf
