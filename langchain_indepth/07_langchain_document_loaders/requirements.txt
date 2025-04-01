@@ -40,3 +40,6 @@ grandalf
 
 # for pdf documents
 pypdf
+
+# for reading webpages
+bs4
