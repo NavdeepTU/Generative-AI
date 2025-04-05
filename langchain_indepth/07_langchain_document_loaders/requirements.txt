@@ -6,6 +6,9 @@ langchain
 langchain-core
 langchain-community
 
+# langchain experimental
+langchain-experimental
+
 # openai integration
 langchain-openai
 openai

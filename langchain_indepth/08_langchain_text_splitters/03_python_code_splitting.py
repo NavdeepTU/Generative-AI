@@ -27,7 +27,7 @@ else:
 
 # initialize the splitter
 splitter = RecursiveCharacterTextSplitter.from_language(
-    language=Language.PYTHON,
+    language=Language.PYTHON, # support for javascript, php, html, markdown also
     chunk_size = 300,
     chunk_overlap=0
 )
