@@ -4,11 +4,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-text_splitter = SemanticChunker(
-    OpenAIEmbeddings(), breakpoint_threshold_type="standard_deviation",
-    breakpoint_threshold_amount=1
-)
-
+# the following text sample contains 2 paragraphs. 
+# first para discusses 2 different topics i.e. agri and ipl.
+# second para discusses about terrorism.
 sample = """
 Farmers were working hard in the fields, 
 preparing the soil and planting seeds for the next season. 
@@ -25,6 +23,11 @@ To fight terrorism, we need strong laws, alert security
 forces, and support from people who care about peace and 
 safety.
 """
+
+text_splitter = SemanticChunker(
+    OpenAIEmbeddings(), breakpoint_threshold_type="standard_deviation",
+    breakpoint_threshold_amount=1
+)
 
 docs = text_splitter.create_documents([sample])
 

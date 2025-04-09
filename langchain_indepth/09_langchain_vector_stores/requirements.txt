@@ -1,0 +1,42 @@
+# running ipynb notebook
+ipykernel
+
+# langchain core
+langchain
+langchain-core
+langchain-community
+
+# openai integration
+langchain-openai
+openai
+
+# anthropic integration
+langchain-anthropic
+
+# google gemini (palm) integration
+langchain-google-genai
+google-generativeai
+
+# hugging face integration
+langchain-huggingface
+transformers
+huggingface-hub
+
+# environment variable management
+python-dotenv
+
+# machine learning utilities
+numpy
+scikit-learn 
+
+# ui libraries
+streamlit
+
+# pydantic
+pydantic[email]
+
+# for graphs
+grandalf
+
+# for vectorstores
+chromadb
