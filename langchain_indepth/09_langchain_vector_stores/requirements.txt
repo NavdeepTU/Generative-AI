@@ -40,3 +40,4 @@ grandalf
 
 # for vectorstores
 chromadb
+faiss-cpu
